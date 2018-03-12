@@ -99,7 +99,7 @@ Edit ~/jig.toml with vim
 If this field is multiline,
 the second and subsequent lines will be displayed in the script help.
 """
-exec = "vim ~/.jig.toml"
+exec = "vim ~/jig.toml"
 ```
 
 ```
