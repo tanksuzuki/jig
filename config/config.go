@@ -124,25 +124,12 @@ type Script struct {
 	Description string `toml:"description"`
 }
 
-func (s Script) Help() string {
-	var help string
-
-	lines := strings.Split(s.Description, "\n")
-
-	if len(lines) > 0 {
-		help += lines[0] + "\n\n"
+func (s Script) Help() (help string) {
+	help += fmt.Sprintf("Usage:\n  jig %s %s", s.Name, s.Args)
+	if s.Description != "" {
+		help += "\n\n" + strings.TrimSpace(s.Description)
 	}
-
-	help += fmt.Sprintf("Usage:\n  jig %s %s\n", s.Name, s.Args)
-
-	if len(lines) > 1 {
-		help += "\n"
-		for i := 1; i < len(lines); i++ {
-			help += lines[i] + "\n"
-		}
-	}
-
-	return help
+	return
 }
 
 func (s Script) Run(args []string) int {
