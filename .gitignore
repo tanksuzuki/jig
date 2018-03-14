@@ -1,4 +1,4 @@
 .DS_Store
 vendor
-jig_linux_amd64
-jig_maxosx_amd64
+jig_linux_*
+jig_maxosx_*
