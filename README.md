@@ -105,11 +105,10 @@ exec = "vim ~/jig.toml"
 ```
 $ jig -h edit
 
-Edit ~/jig.toml with vim
-
 Usage:
   jig edit
 
+Edit ~/jig.toml with vim
 If this field is multiline,
 the second and subsequent lines will be displayed in the script help.
 ```
