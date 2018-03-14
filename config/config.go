@@ -12,10 +12,17 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/fatih/color"
+	"github.com/mitchellh/go-homedir"
 )
 
 type Config struct {
+	Imports []Import `toml:"import"`
 	Scripts []Script `toml:"script"`
+}
+
+type Import struct {
+	Path   string `toml:"path"`
+	Prefix string `toml:"prefix"`
 }
 
 func (c Config) validate() error {
@@ -74,10 +81,29 @@ func (c Config) Run(name string, args []string) (int, error) {
 	return script.Run(args), nil
 }
 
-func Read(path string) (Config, error) {
+func Read(path, prefix string) (Config, error) {
 	c := Config{}
-	if _, err := toml.DecodeFile(path, &c); err != nil {
+
+	homedirExpandedPath, err := homedir.Expand(path)
+	if err != nil {
 		return c, err
+	}
+
+	if _, err := toml.DecodeFile(homedirExpandedPath, &c); err != nil {
+		return c, err
+	}
+
+	for _, i := range c.Imports {
+		imported, err := Read(i.Path, i.Prefix)
+		if err != nil {
+			return c, err
+		}
+		c.Scripts = append(c.Scripts, imported.Scripts...)
+	}
+
+	scriptCount := len(c.Scripts)
+	for i := 0; i < scriptCount; i++ {
+		c.Scripts[i].Name = prefix + c.Scripts[i].Name
 	}
 
 	if err := c.validate(); err != nil {

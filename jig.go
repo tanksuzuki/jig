@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/mitchellh/go-homedir"
 	"github.com/tanksuzuki/jig/config"
 )
 
@@ -38,12 +37,7 @@ func main() {
 		return
 	}
 
-	homedirExpandedPath, err := homedir.Expand(f.Config)
-	if err != nil {
-		log.Fatalf("failed to get home directory path: %s", err)
-	}
-
-	c, err := config.Read(homedirExpandedPath)
+	c, err := config.Read(f.Config, "")
 	if err != nil {
 		log.Fatalf("failed to load config file: %s", err)
 	}
