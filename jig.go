@@ -9,7 +9,7 @@ import (
 	"github.com/tanksuzuki/jig/config"
 )
 
-const version = "v0.0.1"
+const version = "v0.0.2"
 
 type flag struct {
 	Config  string `short:"c" long:"config" description:"Config file to load" env:"JIG_CONFIG" value-name:"path" default:"~/jig.toml"`
